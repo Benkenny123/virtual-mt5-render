@@ -6,11 +6,12 @@ COPY deriv5setup.exe /deriv5setup.exe
 COPY start.sh /Metatrader/start.sh
 RUN chmod +x /Metatrader/start.sh
 
-# KasmVNC web interface runs on port 3000
+# Patch KasmVNC client to prevent crash on WebSocket disconnect (Render free-tier spin-down)
+# Fix: guard UI.rfb before reading .lastActiveAt (KasmVNC known bug on server-initiated disconnect)
+RUN bundle=$(find / -name 'main.bundle.js' -path '*/vnc/*' 2>/dev/null | head -n1) \
+    && echo "Patching KasmVNC bundle: $bundle" \
+    && sed -i 's|(Date.now() - UI.rfb.lastActiveAt) / 1000;|UI.rfb ? (Date.now() - UI.rfb.lastActiveAt) / 1000 : 0;|' "$bundle"
+
 EXPOSE 3000
-
-# Disable KasmVNC login — open access
 ENV PASSWORD=
-
-# Use the base image's default init system
 ENTRYPOINT ["/init"]
