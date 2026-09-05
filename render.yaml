@@ -2,7 +2,7 @@ services:
   - type: web
     name: virtual-mt5
     runtime: docker
-    plan: starter
+    plan: free
     dockerfilePath: ./Dockerfile
     autoDeploy: true
     healthCheckPath: /
