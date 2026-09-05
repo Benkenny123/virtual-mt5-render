@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: virtual-mt5
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: VNC_PASSWORD
+        generateValue: true
+    disk:
+      name: mt5-data
+      mountPath: /root/.wine
+      sizeGB: 10
