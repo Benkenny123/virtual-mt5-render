@@ -5,13 +5,12 @@ services:
     plan: free
     dockerfilePath: ./Dockerfile
     autoDeploy: true
-    healthCheckPath: /
     envVars:
       - key: PORT
-        value: 8000
+        value: 3000
       - key: VNC_PASSWORD
         generateValue: true
     disk:
       name: mt5-data
-      mountPath: /root/.wine
-      sizeGB: 10
+      mountPath: /config
+      sizeGB: 1

@@ -1,10 +1,11 @@
-# Virtual MetaTrader 5 on Render — Wine + noVNC browser interface
-FROM fortesenselabs/metatrader:latest
+# Virtual MetaTrader 5 on Render — KasmVNC browser interface
+FROM gmag11/metatrader5_vnc:latest
 
-# Render routes traffic to $PORT (defaults to 8000 for this image)
-ENV VNC_PASSWORD=${VNC_PASSWORD:-mt5secure}
+# KasmVNC web interface runs on port 3000
+EXPOSE 3000
 
-EXPOSE 8000
+# VNC password for browser access
+ENV PASSWORD=mt5secure
 
-# Keep container alive and MT5 running
-CMD ["sh", "-c", "echo 'MT5 Virtual Terminal running on port 8000' && /entrypoint.sh"]
+# Use the base image's default init system
+ENTRYPOINT ["/init"]
